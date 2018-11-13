@@ -7,6 +7,9 @@ In additional uses much less function evaluation than the brute-force method, so
 ## Citation:
 If you use the MDBM as part of your research, teaching, or other work, I would be grateful if you could cite my corresponding publication: <https://pp.bme.hu/me/article/view/1236/640>
 
+## Web:
+<https://www.mm.bme.hu/~bachrathy/research_EN.html>
+
 # Multi-Dimensional Bisection Method for finding the roots of non-linear implicit equation systems
 
 In the proposed project an efficient root finding algorithm will be implemented in Julia language, which can determine whole high-dimensional submanifolds (points, curves, surfaces…) of the roots of implicit non-linear equation systems, even in cases, where the number of unknowns surpasses the number of equations.
