@@ -42,27 +42,37 @@ New version: "comming soon " <br>
 
 ## Basics:
  * Create the parameter space with the corresponding initial mesh <br>
-__ax=[]; <br>
-ax(1).val=linspace(-3,3,8); <br>
-ax(2).val=linspace(-3,3,8); <br>
-ax(3).val=linspace(-3,3,8);__
+    ```matlab
+    ax=[];
+    ax(1).val=linspace(-3,3,8);
+    ax(2).val=linspace(-3,3,8);
+    ax(3).val=linspace(-3,3,8);
 
+    ```
  * Create a _vectorized_ function which will provide the implicit function values for the paremetrs parameter space with the corresponding initial mesh <br>
-__fun=@(ax)[ax(1,:).^2+ax(2,:).^2+ax(3,:).^2-2^2.5   ;...<br>
-    sin(ax(1,:))-ax(2,:)];__ <br>
-    first row is the implicit equation of a sphere  <br>
+    ```matlab
+    fun=@(ax)[ax(1,:).^2+ax(2,:).^2+ax(3,:).^2-2^2.5   ;...
+    sin(ax(1,:))-ax(2,:)];
+    ```
+
+   first row is the implicit equation of a sphere  <br>
     second row is the implicit form of "y=sin(x)
 
 * Define the number of iteration<br>
-__Niteration=5;__ <br>
-
-The initial grid will be devided _Niteration_ times. So the number of points in the final grid it _~2<sup>Niteration</sup>_ times more than in the initial grid. Take care, the large values can easily lead to memory problem. Start around 3.
+    ```matlab
+    Niteration=5; 
+    ```
+    The initial grid will be devided _Niteration_ times. So the number of points in the final grid it _~2<sup>Niteration</sup>_ times more than in the initial grid. Take care, the large values can easily lead to memory problem. Start around 3.
 
 * Run the Multi-Dimensional Bisection Method <br>
-__mdbm_sol=mdbm(ax,fun,Niteration);__
+    ```matlab
+    mdbm_sol=mdbm(ax,fun,Niteration);
+    ```
 
 * The solution can be plotted direcly <br>
-__plot_mdbm(mdbm_sol);__
+    ```matlab
+    plot_mdbm(mdbm_sol);
+    ```
 
 
 For advanced options go thorugh the examples!
