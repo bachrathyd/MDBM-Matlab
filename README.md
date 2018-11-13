@@ -5,7 +5,7 @@ Multi-Dimensional Bisection Method (MDBM) to efficiently find the all the soluti
 
 In the proposed project an efficient root finding algorithm will be implemented in Julia language, which can determine whole high-dimensional submanifolds (points, curves, surfaces…) of the roots of implicit non-linear equation systems, even in cases, where the number of unknowns surpasses the number of equations.
 
-$$ f_i(x_j)=0 \quad i=1...k \quad j=1...l, \quad k \leq l,$$
+<a href="https://www.codecogs.com/eqnedit.php?latex=f_i(x_j)=0&space;\quad&space;i=1...k&space;\quad&space;j=1...l,&space;\quad&space;k&space;\leq&space;l" target="_blank"><img src="https://latex.codecogs.com/gif.latex?f_i(x_j)=0&space;\quad&space;i=1...k&space;\quad&space;j=1...l,&space;\quad&space;k&space;\leq&space;l" title="f_i(x_j)=0 \quad i=1...k \quad j=1...l, \quad k \leq l" /></a>
 
 This type of problems can be found in many different field of science 
 - differential geometry (isolines, isosurfaces in higher dimensions)
