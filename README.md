@@ -33,7 +33,7 @@ MDBM algorithm canhandle automatically:
 
 
 ## Citing
-The software in this ecosystem was developed as part of academic research. If you use the MDBM.jl package as part of your research, teaching, or other work, I would be grateful if you could cite my corresponding publication: <https://pp.bme.hu/me/article/view/1236/640>
+The software was developed as part of academic research. If you use the MDBM Matlab package as part of your research, teaching, or other work, I would be grateful if you could cite my corresponding publication: <https://pp.bme.hu/me/article/view/1236/640>
 
 
 ## Web:

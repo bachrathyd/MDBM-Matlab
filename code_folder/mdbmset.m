@@ -36,8 +36,14 @@ mdbmoptionspar.timelimit=30;% [seconds] - the length of the next computation ste
 %(In this way,we can eliminate the step with too large memory consumption. Memory usage is proportional to this amount ~50-200 x larger is bytes)
 mdbmoptionspar.funcallimit=1e5;
 
+
+
+mdbmoptionspar.dodisplay=1;% - 1 (true) show the details of the computation, 0 (false) show no details
+
+
+
 structfields={'fvectorized','isconstrained','interporder','bracketingdistance','bracketingnorm','checkneighbour',...
-    'connections','zerotreshold','cornerneighbours','refinetype','Ncodim','timelimit','funcallimit'};
+    'connections','zerotreshold','cornerneighbours','refinetype','Ncodim','timelimit','funcallimit','dodisplay'};
 for k=1:2:length(varargin)
     
     if any(strcmp(varargin{k},structfields)) && (k+1)<=length(varargin)

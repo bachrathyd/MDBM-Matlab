@@ -56,7 +56,7 @@ if length(varargin)>2
         mdbm_sol.posinterp=mdbm_sol.posinterp(dimensionsorder,:);%reorder the points
         mdbm_sol.gradient=mdbm_sol.gradient(dimensionsorder,:,:);
         mdbm_sol.ax=mdbm_sol.ax(dimensionsorder);
-        %         Ndim=length(dimensionsorder);
+        Ndim=length(dimensionsorder);
     end
     
 end
