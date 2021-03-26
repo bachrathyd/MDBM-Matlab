@@ -25,7 +25,7 @@ mdbm_options=mdbmset('isconstrained',false,'interporder',1);
 par.type='constrain';
 mdbm_options.isconstrained=0;% set the mdbm method, to consider the last value of the 'fval_complex_constrained' output as a constrain
 par.constrained=0;% set the 'fval_complex_constrained' method, to compute the constrain
-mdbm_sol_CONST=mdbm(ax,bound_fuction_name,4,mdbm_options,par);
+mdbm_sol_CONST=mdbm(ax,bound_fuction_name,3,mdbm_options,par);
 figure(106),clf
 shading interp
 ghandle=plot_mdbm(mdbm_sol_CONST,'r');

@@ -20,7 +20,7 @@ ax(3).val=linspace(2,4,14);%angle of c
 %% extra constant parameters
 par=[];
 par.iter=500;%number of iteration during the mapping of Julia set
-mdbm_options=mdbmset('connections',false,'interporder',0);
+mdbm_options=mdbmset('connections',false,'interporder',0,'timelimit',Inf);
 mdbm_sol=mdbm(ax,'fval_complex_1_Julia_set_3d',4,mdbm_options,par);%zero
 
 %% The next part to perform the connenction for surface plotting
@@ -31,7 +31,8 @@ mdbm_sol=DTconnect(mdbm_sol);
 %%
 
 figure(101),clf
-plot_mdbm(mdbm_sol);
+Numerofinterpolation=0;%presenting the numerical results without interpolation, (see the help of plot_mdbm
+plot_mdbm(mdbm_sol,[],[],[],[],[],0);
 shading interp
 lighting flat
 view([-60,37])

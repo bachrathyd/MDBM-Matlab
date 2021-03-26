@@ -5,12 +5,12 @@
 % definition of the parameter space
 %the limits and the initial mesh
 ax=[];
-ax(1).val=linspace(-3,4,7);%x
-ax(2).val=linspace(-3,4,7);%y
-ax(3).val=linspace(-3,4,7);%z
+ax(1).val=linspace(-3,4,3);%x
+ax(2).val=linspace(-3,4,3);%y
+ax(3).val=linspace(-3,4,3);%z
 
 % number of iteration
-Niteration=3;%take care, the large values can easily lead to memory problem
+Niteration=2;%take care, the large values can easily lead to memory problem
 %% function for which the roots are detected
 bound_fuction_name='fval_basic_4_pardim3_codim1';
 mdbm_sol1=mdbm(ax,bound_fuction_name,Niteration);%zero
@@ -112,5 +112,7 @@ mdbm_sol_ax=mdbm(ax,@(ax) sum(abs([0.8,0.1;-0.3,1]*ax).^(1/3),1).^3-2,8);
 
 subplot(1,2,1)
 plot_mdbm(mdbm_sol_ax);
+view(2)
 subplot(1,2,2)
 plot_mdbm(mdbm_sol_ax,[],[],[],[],ax);
+view(2)

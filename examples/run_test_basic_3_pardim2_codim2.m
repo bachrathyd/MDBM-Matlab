@@ -9,6 +9,7 @@
 ax=[];
 ax(1).val=linspace(-3,3,8);
 ax(2).val=linspace(-3,3,8);
+ax(2).val=rand(16,1)*6-3;
 
 % number of iteration
 Niteration=7;%take care, the large values can easily lead to memory problem

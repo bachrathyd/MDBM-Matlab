@@ -12,7 +12,7 @@ ax(2).val=linspace(-3,3,3);
 ax(3).val=linspace(-3,3,3);
 
 % number of iteration
-Niteration=4;%take care, the large values can easily lead to memory problem
+Niteration=2;%take care, the large values can easily lead to memory problem
 
 %% function for which the roots are detected
 bound_fuction_name='fval_basic_4_pardim3_codim1';

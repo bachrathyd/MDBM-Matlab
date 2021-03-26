@@ -17,12 +17,14 @@ Niteration=3;%take care, the large values can easily lead to memory problem
 %% function for which the roots are detected
 bound_fuction_name='fval_basic_7_pardim4_codim1';
 mdbm_sol=mdbm(ax,bound_fuction_name,Niteration);%zero
-
+mdbm_sol=DTconnect_delunay_high_order(mdbm_sol);%forced 'triangulation' in higher dimension (maybe a pointles step - it cannot be used for plotting)5
 figure(7)
 subplot(1,2,1)
-plot_mdbm(mdbm_sol);
+Numerofinterpolation=0;%presenting the numerical results without interpolation, (see the help of plot_mdbm
+plot_mdbm(mdbm_sol,[],[],[],[],[],0);
 alpha 0.3
 title(['DTconncetion time: ', num2str(mdbm_sol.opt.times.DTconnect),' [s]'])
+
 drawnow
 % if you would like to carry out more iteration in a high 'parameter dimension' problem
 %, then it would be very hard (& time consuming) to connect the points for plotting.

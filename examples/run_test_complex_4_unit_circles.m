@@ -12,8 +12,8 @@
 
 
 ax=[];
-ax(1).val=linspace(-1.5,1.5,4);%x
-ax(2).val=linspace(-1.5,1.5,4);%y
+ax(1).val=linspace(-1.5,1.5,5);%x
+ax(2).val=linspace(-1.5,1.5,5);%y
 ax(3).val=linspace(0.4,4,4);% norm
 
 par=[];
@@ -38,7 +38,7 @@ ylabel('y')
 view(3)
 drawnow
 
-for par=0.5:0.5:3.5
+for par=0.2505:0.25:3.5
 mdbm_sol_section=mdbm(ax,'fval_complex_4_unit_circles',6,[],par);
 graphhandel=plot_mdbm(mdbm_sol_section,'b',[3,1,2]);%plot the computed points
 set(graphhandel,'LineWidth',3)

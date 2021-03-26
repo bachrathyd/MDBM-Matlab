@@ -26,16 +26,15 @@ function graphandle=plot_mdbm(varargin)
 % set the majaor and minor axes based on the originalax and the final
 % meshsize, respectively (if ~isempty(originalax))
 
-
+% db_plot_mdbm(mdbm_sol,plotcolor,dimensionsorder,plotobjdim,gradplot,originalax,Numerofinterpolation)
+% It devides each elements (line, triangle...) into Numerofinterpolation
+% components for smoother plots if gradient is availble.
+% Numerofinterpolation is 5 by defult
+% Numerofinterpolation=0 - switch off the interpolation
+%
 graphandle=[];
 
 mdbm_sol=varargin{1};
-
-
-if isfield(mdbm_sol,'DTbezier')
-    mdbm_sol.DT=mdbm_sol.DTbezier;
-    mdbm_sol.posinterp=mdbm_sol.posbezier;
-end
 
 Ndim=mdbm_sol.opt.Ndim;
 Ncodim=mdbm_sol.opt.Ncodim;
@@ -53,10 +52,6 @@ dimensionsorder=1:(min(4,Ndim));
 if length(varargin)>2
     if and(~isempty(varargin{3}),length(varargin{3})<=Ndim)
         dimensionsorder=varargin{3};
-        mdbm_sol.posinterp=mdbm_sol.posinterp(dimensionsorder,:);%reorder the points
-        mdbm_sol.gradient=mdbm_sol.gradient(dimensionsorder,:,:);
-        mdbm_sol.ax=mdbm_sol.ax(dimensionsorder);
-        Ndim=length(dimensionsorder);
     end
     
 end
@@ -85,22 +80,48 @@ end
 
 axticks=0;
 if length(varargin)>5
-    originalax=varargin{6}(dimensionsorder);
-    axticks=~isempty(originalax);
+    if ~isempty(varargin{6})
+        originalax=varargin{6}(dimensionsorder);
+        axticks=~isempty(originalax);
+    end
 end
 
-
-DT0=1:size(mdbm_sol.posinterp,2);
-if length(plotobjdims)>1
-    hold on
-    DT0=DT0(~ismember(DT0,mdbm_sol.DT{1}(:)));
-    
-    mdbm_sol.DT{1}=mdbm_sol.DT{1}(~ismember(mdbm_sol.DT{1},[mdbm_sol.DT{2}(:,[1,2]);mdbm_sol.DT{2}(:,[2,3]);mdbm_sol.DT{2}(:,[1,3])], 'rows'),:);
-    %higher order is ignored, hence, we cannot plot it
+Numerofinterpolation=5;
+if length(varargin)>6
+    if ~isempty(varargin{7})
+        Numerofinterpolation=varargin{7};
+    end
 end
-
-
 for plotobjdim=plotobjdims
+    
+    % % NOW THE INTERPOLATED OBJECTS ARE PLOTTED BY DEFAULT!
+    % %  <<<<<<<<<<<<<<<< YOU CAN REMOVE THIS PART >>>>>>>>>>>>>>>>>>>
+    if all([mdbm_sol.opt.interporder>0,plotobjdim>0,mdbm_sol.opt.Ndim-mdbm_sol.opt.Ncodim>0,gradplot==0,~isfield(mdbm_sol,'DTbezier'),Numerofinterpolation>0])
+        %disp('Note, now, the intarpolated result is plotted by default!')
+        %disp('You can remove this part in the plot_mdbm.m file!')
+        mdbm_sol=interpplot(mdbm_sol,Numerofinterpolation,plotobjdim);%now, a default 5 interpolatation of the data is used to provide a better graph
+    end
+    % %  <<<<<<<<<<<<<<<< YOU CAN REMOVE THIS PART >>>>>>>>>>>>>>>>>>>
+    
+    
+    if isfield(mdbm_sol,'DTbezier')
+        mdbm_sol.DT=mdbm_sol.DTbezier;
+        mdbm_sol.posinterp=mdbm_sol.posbezier;
+    end
+    
+    
+    
+    DT0=1:size(mdbm_sol.posinterp,2);
+    if length(plotobjdims)>1
+        hold on
+        DT0=DT0(~ismember(DT0,mdbm_sol.DT{1}(:)));
+        
+        mdbm_sol.DT{1}=mdbm_sol.DT{1}(~ismember(mdbm_sol.DT{1},[mdbm_sol.DT{2}(:,[1,2]);mdbm_sol.DT{2}(:,[2,3]);mdbm_sol.DT{2}(:,[1,3])], 'rows'),:);
+        %higher order is ignored, hence, we cannot plot it
+    end
+    
+    
+    
     
     switch Ndim%length(dimensionsorder)
         case 1

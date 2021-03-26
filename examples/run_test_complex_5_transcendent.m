@@ -1,6 +1,3 @@
-close all
-clear all
-clc
 %% Multi-Dimensional Bisection Method
 % -5 complex example -
 % parameter dimension : 2
@@ -30,6 +27,7 @@ bound_fuction_name='fval_complex_5_transcendent';
 
 [X,Y]=ndgrid(linspace(-5,5,50),linspace(-8,8,50));
 
+par=[];
 par.funtype=1;
 [Z1]=feval(bound_fuction_name,[X(:),Y(:)]',par);
 Z1=reshape(Z1,size(X));

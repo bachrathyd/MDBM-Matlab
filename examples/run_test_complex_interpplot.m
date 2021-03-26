@@ -29,6 +29,7 @@ for k=1:3 % determine and plot the results in each steps
     plot_mdbm(mdbm_sol,[],[],2,[],ax);
     view(212,77)
     title(['After ', num2str(k),' iteration'])
+    shading interp
     drawnow
 end
 mdbm_sol=interpolating_cubes(mdbm_sol);
@@ -40,6 +41,7 @@ plot_mdbm(mdbm_sol,[],[],2,[],ax);
 title('After the checkneighbour')
 set(gcf,'Position', [100,100,900,600])
 view(212,77)
+shading interp
 drawnow
 
 linkaxes(axtoloc,'xy')
@@ -56,7 +58,8 @@ for iorder=0:2
     mdbm_sol.opt.interporder=iorder;
     mdbm_sol=interpolating_cubes(mdbm_sol);
     mdbm_sol=DTconnect(mdbm_sol);
-    plot_mdbm(mdbm_sol)
+    Numerofinterpolation=0;%presenting the numerical results without interpolation, (see the help of plot_mdbm
+    plot_mdbm(mdbm_sol,[],[],[],[],[],Numerofinterpolation)
     view(2)
     title({['Order of interpolation: ',num2str(iorder)],[ ' , with original mesh']})
     drawnow
