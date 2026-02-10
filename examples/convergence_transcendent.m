@@ -125,7 +125,7 @@ for kinterpolationorder=0:2
     grid on
     drawnow
 end
-legend(legendstring, 'Location', 'northeast')
+legend(legendstring, 'Location', 'northoutside')
 
 
 %% If much higher precision is required than the output of the MDBM should be
@@ -141,7 +141,7 @@ figure(105)
 subplot(2,2,3)
 refinedvalerror=max(max(abs(foo_transcendent(x,par))))
 plot(x(1,:),x(2,:),'g*','MarkerSize',8)
-legend({'sol. of fun. 1 by mdbm','sol. of fun. 2 by mdbm','sol. of fun. 1 & 2 by mdbm','sol. of fun. 1 & 2 by fminsearch'},'Location','northeast')
+legend({'sol. of fun. 1 by mdbm','sol. of fun. 2 by mdbm','sol. of fun. 1 & 2 by mdbm','sol. of fun. 1 & 2 by fminsearch'},'Location','northoutside')
 
 
 

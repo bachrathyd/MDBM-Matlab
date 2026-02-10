@@ -38,8 +38,8 @@ The `mdbmset` function creates the options structure. Each field is critical for
 | `fvectorized` | (Always true) Assumes the function accepts and returns matrices of points for speed. | - |
 | `isconstrained` | If true, the last equation in the output is treated as a domain boundary. Solutions are only kept where this value is positive. | `features/constrained_problems_simple.m` |
 | `interporder` | Order of root interpolation: `0` (raw grid points), `1` (linear), `2` (quadratic). Higher orders provide smoother results but require more neighbors. | `features/interpolation_order.m` |
-| `bracketingdistance` | Distance (in grid units) to look for sign changes. Increasing this can help recover branches in very dense solution regions. | `case_studies/turning_stability/...` |
-| `bracketingnorm` | The norm used to calculate distance for bracketing. | - |
+| `bracketingdistance` | Distance (in grid units) to look for sign changes. Increasing this can help recover branches in very dense solution regions. | `features/bracketing_ncube_detection.m` |
+| `bracketingnorm` | The norm used to calculate distance for bracketing. | `features/bracketing_ncube_detection.m` |
 | `checkneighbourinallsteps` | If true, neighbor checking is performed at every iteration. Highly robust but slower. | `features/neighbor_check_demo.m` |
 | `checkneighbour` | Maximum number of consecutive neighbor check steps. Set to `Inf` for maximum robustness or `0` to disable. | `features/neighbor_check_demo.m` |
 | `directionalneighbouronly` | Optimization: if true, only neighbors in directions where a root is expected are checked. | - |
@@ -113,6 +113,10 @@ Demonstrations of specific solver capabilities and options.
 `neighbor_check_demo.m` illustrates how MDBM recovers missing solution branches by checking adjacent cells.
 ![Neighbor Check](figures/feature_neighbor_check.png)
 
+#### Bracketing n-cubes
+`bracketing_ncube_detection.m` demonstrates how the solver identifies cells that contain a root based on the distance to the manifold. It performs a sweep of the `bracketingdistance` parameter to show the trade-off between robustness (finding all branches) and efficiency (minimizing evaluated points).
+![Bracketing n-cubes](figures/feature_bracketing.png)
+
 ### `examples/`
 Practical and visual applications.
 
@@ -151,24 +155,26 @@ Replication of scientific problems.
 
 ## 5. History & Background
 
-The core idea of MDBM occurred during my MSc thesis (written during an Erasmus stay at the **University of Bristol**) in **2006**. The primary motivation was solving the characteristic equations of **Delay Differential Equations (DDEs)**, which typically involve $2+1$ parameters and 2 equations (real/imaginary parts). MDBM remains unique in its ability to handle these challenges robustly without requiring derivatives.
+The core idea of MDBM occurred during my MSc thesis (written during an Erasmus stay at the **University of Bristol** - thank you for that!) in **2006**. It has been updated in larger and smaller bursts throughout the last 20 years, leading to my most cited paper.
+
+The primary motivation was the solution of the characteristic equations of **Delay Differential Equations (DDEs)**, which typically involve $2+1$ parameters and 2 equations (real and imaginary parts of the characteristic equation). At that time, no direct method existed to solve these automatically in a robust way, especially for detecting closed manifolds of non-differentiable functions. As far as I know, there is still no other method that handles this as effectively.
 
 ---
 
 ## 6. Known Alternatives
 
-*   **Mathematica (ContourPlot/Isosurface)**: Mathematica uses an iterative refinement method (triangle-based) for its visualization functions. While robust and supporting 3D, it is generally limited to a single implicit equation.
-*   **Sequential Projection / Triangulation**: These methods solve the equations one by one. For example, finding the zero level set of the first equation, triangulating it, and then searching for the zeros of the second equation on those triangles. While mathematically sound, the complexity scales poorly, often becoming as expensive as a brute-force search.
-*   **Interval Arithmetic (Guaranteed Solutions)**: Methods based on Interval Arithmetic (IA) provide mathematically guaranteed enclosures of the roots. **David P. Sanders** has developed significant work in this area (e.g., `IntervalRootFinding.jl` in Julia). These methods are excellent for finding *all* roots with certainty, whereas MDBM might lose small features if the initial grid is too coarse. However, IA methods can be more complex to set up for general black-box engineering functions.
-*   **Newton-Raphson & Continuation Methods**: Standard local solvers are much faster if a good initial guess is available but cannot easily find all branches or handle non-differentiable manifolds as robustly as MDBM.
+*   **Mathematica (ContourPlot/Isosurface)**: Mathematica performs contour plots by iteratively refining the grid (triangle-based), which is similar to my method. As far as I know, it does this in 3D as well. However, it can generally handle only one equation (which is the "easy" problem).
+*   **Sequential Projection / Triangulation**: There are versions where you solve the first equation in higher dimensions, then triangulate the result, and solve the second equation on that mesh, and so on. While this creates a robust solution, the complexity is very, very high—almost the same as a brute-force search.
+*   **Interval Arithmetic (Guaranteed Solutions)**: Some methods provide guaranteed solutions (whereas in MDBM, it is inevitable that a small piece of the solution might be lost in higher dimensions—in contrast to the traditional 1D bisection problem). See the great works of **David P. Sanders** on Interval Arithmetic (e.g., `IntervalRootFinding.jl`).
+*   **Newton-Raphson & Continuation Methods**: Standard local solvers are faster if a good initial guess is available but cannot easily find all branches or handle non-smooth manifolds as robustly as MDBM.
 
 ---
 
 ## 7. Disclaimer & Versions
 
-**Note on Protected Files**: The core engine (`mdbm.p`, `refine.p`, etc.) is provided as protected files. All user-customizable files are `*.m`.
+**Note on Protected Files**: I would like to protect my work, thus I use `*.p` files for the core engine (some of you may dislike it, sorry). In my opinion, the code is far too long and complex to understand; I spent more than 10 years on it, and sometimes it is hard even for me to understand the logic! (I am a mechanical engineer, not a professional programmer). However, all files that might need modification for special needs are provided as `*.m` files.
 
-**Julia Version**: A newer version is available in Julia, featuring **sub-cube interpolation** and **error-based non-uniform refinement**. It is currently the focus of active development.
+**Julia Version**: A newer version is available in Julia. Although not all features from the Matlab version have been migrated yet (as some are not critical), they have similar capabilities. Currently, only the Julia version is being actively maintained and updated, so great new features will come there first. For instance, sub-cube interpolation is already available, and the error-based non-uniform refinement (**"best and most needed feature ever"**) is already in a usable beta version.
 
 ---
 

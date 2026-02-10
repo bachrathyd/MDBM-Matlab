@@ -6,7 +6,7 @@ ax=linspace(-1.8,1.81,1000);
 figure(1),clf,
 subplot(1,3,1)
 plot(ax,foo(ax))
-legend({'function', 'constraint'}, 'Location', 'northeast')
+legend({'function', 'constraint'}, 'Location', 'northoutside')
 
 ylabel('Function value - applied to each parameter (H_i=f(x_i)')
 hold on

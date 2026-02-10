@@ -25,7 +25,7 @@ set(solgraphand,'Marker','x','MarkerSize',10)
 hold on
 x = linspace(-4, 5, 1000);
 plot(x, sin(x), 'r-')
-legend( 'sin(x)=0','sin(x)', 'Location', 'northeast')
+legend( 'sin(x)=0','sin(x)', 'Location', 'northoutside')
 function H = fval(ax)
     H = sin(ax);
 end

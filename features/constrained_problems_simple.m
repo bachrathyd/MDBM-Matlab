@@ -40,7 +40,7 @@ gh = plot_mdbm(mdbm_sol_f1, 'b');
 set(gh, 'LineStyle', 'none'); alpha 0.2;
 drawnow
 
-legend('function', 'Constrain', 'Location', 'northeast');
+legend('function', 'Constrain', 'Location', 'northoutside');
 
 subplot(1,2,2)
 %% 3. Plotting Function with Constraints
@@ -50,7 +50,7 @@ gh = plot_mdbm(mdbm_sol_f1, 'g');
 set(gh, 'LineStyle', 'none'); alpha 0.2;
 drawnow
 
-legend('Constrained function', 'Location', 'northeast');
+legend('Constrained function', 'Location', 'northoutside');
 
 grid on; 
 

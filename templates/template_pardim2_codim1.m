@@ -10,13 +10,12 @@ ax(1).val = linspace(-3, 3, 3);
 ax(2).val = linspace(-3, 3, 3);
 
 % number of iterations
-Niteration = 3; % take care, large values can lead to memory problems
+Niteration = 2; % take care, large values can lead to memory problems
 
 %% function for which the roots are detected
 bound_fuction_name = @fval;
-
-mdbm_options = mdbmset('connections', 1, 'checkneighbour', Inf, 'checkneighbourinallsteps', 1, 'directionalneighbouronly', 0, 'cornerneighbours', 1);
-mdbm_sol = mdbm(ax, bound_fuction_name, Niteration, mdbm_options);
+mdbm_sol = mdbm(ax, bound_fuction_name, Niteration);%initial solution 
+mdbm_sol = mdbm(mdbm_sol, 1);%add one more iteration step later
 
 figure(2), clf
 plotobject = plot_mdbm(mdbm_sol, 'k');

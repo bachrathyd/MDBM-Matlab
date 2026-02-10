@@ -82,7 +82,8 @@ The behavior of the solver is controlled by the \texttt{mdbmset} structure. Each
 \textbf{Field} & \textbf{Related Demo} & \textbf{Description} \\ \midrule
 \texttt{isconstrained} & \nameref{sec:constrain} & If true, the last equation in the output is treated as a domain boundary. Solutions are only kept where this value is positive. \\
 \texttt{interporder} & \nameref{sec:interp} & Order of root interpolation: 0 (raw grid points), 1 (linear), 2 (quadratic). \\
-\texttt{bracketingdistance} & Case: Turning & Distance (in grid units) to look for sign changes. Helps recover branches in dense regions. \\
+\texttt{bracketingdistance} & \nameref{sec:bracketing} & Distance (in grid units) to look for sign changes. Helps recover branches in dense regions. \\
+\texttt{bracketingnorm} & \nameref{sec:bracketing} & The norm used to calculate distance for bracketing. \\
 \texttt{checkneighbour} & \nameref{sec:neighbor} & Max consecutive neighbor check steps. Set to \texttt{Inf} for max robustness. \\
 \texttt{refinetype} & \nameref{sec:refine} & Refinement strategy: \texttt{'all'}, \texttt{'pos'} (range), \texttt{'object'} (near roots). \\
 \texttt{zerotreshold} & Feature: Degenerate & Numerical value below which a function evaluation is considered exactly zero. \\
@@ -112,18 +113,20 @@ The following files in the \texttt{src/} directory form the core of the MDBM eco
 \end{longtable}
 
 \section{History}
-The core idea of MDBM occurred during my MSc thesis at the University of Bristol (Erasmus program) in 2006. The motivation was the solution of the characteristic equation of time-delay systems (DDEs), which involve 2+1 parameters and 2 equations (real and imaginary parts). At that time, no direct method existed to handle these problems automatically in a robust way, especially for detecting closed manifolds of non-differentiable functions.
+The core idea of MDBM occurred during my MSc thesis (written during an Erasmus stay at the University of Bristol - thank you for that!) in 2006. It has been updated in larger and smaller bursts throughout the last 20 years, leading to my most cited paper.
+
+The primary motivation was the solution of the characteristic equations of Delay Differential Equations (DDEs), which typically involve 2+1 parameters and 2 equations (real and imaginary parts of the characteristic equation). At that time, no direct method existed to solve these automatically in a robust way, especially for detecting closed manifolds of non-differentiable functions. As far as I know, there is still no other method that handles this as effectively.
 
 \section{Disclaimer}
-The core solver files are provided as \texttt{.p} files to protect the development work spanning over a decade. All files necessary for customization and special needs remain as \texttt{.m} files. 
+\textbf{Note on Protected Files}: I would like to protect my work, thus I use \texttt{*.p} files for the core engine (some of you may dislike it, sorry). In my opinion, the code is far too long and complex to understand; I spent more than 10 years on it, and sometimes it is hard even for me to understand the logic! (I am a mechanical engineer, not a professional programmer). However, all files that might need modification for special needs are provided as \texttt{*.m} files. 
 
-\textbf{Julia Version}: A newer version is available in Julia. It includes sub-cube interpolation and a beta version of the highly anticipated error-based non-uniform refinement.
+\textbf{Julia Version}: A newer version is available in Julia. Although not all features from the Matlab version have been migrated yet (as some are not critical), they have similar capabilities. Currently, only the Julia version is being actively maintained and updated, so great new features will come there first. For instance, sub-cube interpolation is already available, and the error-based non-uniform refinement (``best and most needed feature ever'') is already in a usable beta version.
 
 \section{Known Alternatives}
 \begin{itemize}
-    \item \textbf{Mathematica (ContourPlot/Isosurface)}: Uses iterative grid refinement for visualization. Robust in 2D and 3D but usually limited to a single implicit equation.
-    \item \textbf{Sequential Projections}: Solving equations sequentially and triangulating intermediate results. Complexity scales poorly with dimension and number of equations.
-    \item \textbf{Interval Arithmetic}: Provides mathematically guaranteed results. Notable work includes \textbf{David P. Sanders} and the Julia ecosystem (\texttt{IntervalRootFinding.jl}).
+    \item \textbf{Mathematica (ContourPlot/Isosurface)}: Mathematica performs contour plots by iteratively refining the grid (triangle-based), which is similar to my method. As far as I know, it does this in 3D as well. However, it can generally handle only one equation (which is the ``easy'' problem).
+    \item \textbf{Sequential Projections}: There are versions where you solve the first equation in higher dimensions, then triangulate the result, and solve the second equation on that mesh, and so on. While this creates a robust solution, the complexity is very, very high---almost the same as a brute-force search.
+    \item \textbf{Interval Arithmetic}: Some methods provide guaranteed solutions (whereas in MDBM, it is inevitable that a small piece of the solution might be lost in higher dimensions---in contrast to the traditional 1D bisection problem). See the great works of \textbf{David P. Sanders} on Interval Arithmetic (e.g., \texttt{IntervalRootFinding.jl} in Julia).
 \end{itemize}
 
 \section{Folder Descriptions and Gallery}
@@ -183,6 +186,15 @@ Recovering missing branches (Figure~\ref{fig:neighbor}).
     \includegraphics[width=0.6\textwidth]{../figures/feature_neighbor_check.png}
     \caption{Neighbor check ensuring solution continuity.}
     \label{fig:neighbor}
+\end{figure}
+
+\subsubsection{Bracketing n-cubes}\label{sec:bracketing}
+\texttt{bracketing\_ncube\_detection.m} shows how bracketing cells are identified (Figure~\ref{fig:bracketing}). This script demonstrates the effect of the \texttt{bracketingdistance} parameter by performing a sweep across different values, highlighting the trade-off between capturing disconnected manifold components and the number of evaluated grid points.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{../figures/feature_bracketing.png}
+    \caption{Bracketing n-cube detection with varying \texttt{bracketingdistance} values.}
+    \label{fig:bracketing}
 \end{figure}
 
 \newpage

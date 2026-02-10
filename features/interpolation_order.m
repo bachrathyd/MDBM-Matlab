@@ -77,7 +77,7 @@ for Ninter= 1:10
         errorbar(1:Ninter, radiuserror_mean(InterpolationOrder+1,1:Ninter), radiuserror_std(InterpolationOrder+1,1:Ninter), [colorslegened(InterpolationOrder+1),'-o'],'DisplayName',['Mean Order ',num2str(InterpolationOrder)])
         plot(1:Ninter, radiuserror_max(InterpolationOrder+1,1:Ninter), [colorslegened(InterpolationOrder+1),':x'],'DisplayName',['Max Order ',num2str(InterpolationOrder)])
     end
-    legend('Location','northeast')
+    legend('Location','northoutside')
     drawnow
 end
 

@@ -56,5 +56,5 @@ y=mdbm_sol_section.posinterp(2,:);
 plot3(p_loc*ones(1,length(x)),x,y,'k.')
 drawnow
 end
-legend('surfaces','computed pont','secions at p=0.5:0.5:3.5','Location','northeast')
+legend('surfaces','computed pont','secions at p=0.5:0.5:3.5','Location','northoutside')
 

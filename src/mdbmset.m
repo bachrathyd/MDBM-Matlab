@@ -1,6 +1,88 @@
 function mdbmoptionspar=mdbmset(varargin)
 %mdbmset  Create/alter MDBM OPTIONS structure.
-%  Any unspecified properties have default values.
+%
+%   OPTS = mdbmset('field1', value1, 'field2', value2, ...) creates an 
+%   options structure with the specified parameters.
+%
+%   Each field in the OPTIONS structure significantly impacts the solver's 
+%   behavior, robustness, and performance. Below is a detailed description 
+%   of each parameter and where to find demonstrations of their effects:
+%
+%   fvectorized - (Boolean) [Default: true]
+%       Currently always assumed to be true. The solver expects the user 
+%       function to accept a matrix of points and return a matrix of values.
+%
+%   isconstrained - (Boolean) [Default: false]
+%       If true, the last equation in the function output is treated as 
+%       a domain constraint. Solutions are only valid where this value is 
+%       positive.
+%       Demo: features/constrained_problems_simple.m, 
+%             features/constrained_problems_complex.m
+%
+%   interporder - (0, 1, or 2) [Default: 1]
+%       Order of root interpolation within a grid cell. 
+%       0: No interpolation (returns the grid point closest to the root).
+%       1: Linear interpolation (standard).
+%       2: Quadratic interpolation (smoother, higher accuracy).
+%       Demo: features/interpolation_order.m
+%
+%   bracketingdistance - (Positive Double) [Default: 2]
+%       Relative distance (in grid units) used to identify if an n-cube 
+%       contains a root (bracketing). Larger values make the solver more 
+%       robust to non-smoothness but increase computation time.
+%       Demo: features/bracketing_ncube_detection.m
+%
+%   bracketingnorm - (Positive Double) [Default: 2]
+%       The p-norm used for the bracketing distance calculation.
+%       Demo: features/bracketing_ncube_detection.m
+%
+%   checkneighbourinallsteps - (Boolean) [Default: false]
+%       If true, the neighbor check logic is executed at every iteration. 
+%       Essential for discovering disconnected solution branches.
+%       Demo: features/neighbor_check_demo.m
+%
+%   checkneighbour - (Double/Inf) [Default: Inf]
+%       Limits the number of consecutive neighbor check steps.
+%       Demo: features/neighbor_check_demo.m
+%
+%   directionalneighbouronly - (Boolean) [Default: true]
+%       If true, only checks neighbors in directions where the function 
+%       gradient suggests a root might exist.
+%
+%   connections - (Boolean) [Default: true]
+%       If true, calculates the Delaunay connectivity needed for 
+%       visualizing surfaces and curves.
+%       Demo: features/connection_of_points_to_simplex.m
+%
+%   zerotreshold - (Positive Double) [Default: 0]
+%       Value below which a function evaluation is considered exactly zero. 
+%       Crucial for handling degenerate or non-smooth functions.
+%       Demo: features/degenerate_function_1.m
+%
+%   cornerneighbours - (Boolean) [Default: false]
+%       If true, includes diagonal neighbors in the search. Automatically 
+%       set to true if interporder > 1.
+%       Demo: features/interpolation_order.m
+%
+%   refinetype - ('all', 'pos', 'grid', 'object', 'curvature') [Default: 'all']
+%       Determines which cells are refined in the next step.
+%       'all': Standard bisection (refine all cells with roots).
+%       'pos': Refine only within a specific coordinate range.
+%       'object': Refine only specific solution branches.
+%       Demo: features/local_refinement_nonsmooth_mandelbrot.m
+%
+%   Ncodim - (Integer) [Default: []]
+%       Manually specifies the number of equations if it cannot be 
+%       automatically determined.
+%
+%   timelimit - (Seconds) [Default: 30]
+%       Maximum time allowed for a single refinement step.
+%       Demo: case_studies/Delay_Mathieu_simulation_based_stability_chart/...
+%
+%   funcallimit - (Integer) [Default: 1e5]
+%       Safety limit for the number of function evaluations to prevent 
+%       memory exhaustion.
+
 mdbmoptionspar.fvectorized=true;%//TODO: it is still not implemented!!! always true is assumed
 mdbmoptionspar.isconstrained=false; %f provides contrain? all the constraints are combinded!!! length C===1
 mdbmoptionspar.interporder=1; % order of interpolation0,1,2

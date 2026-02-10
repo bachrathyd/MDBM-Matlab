@@ -33,7 +33,7 @@ f=@(ax) sum((abs((fround(ax))-2.5)).^Npow,1)-2^Npow;
 mdbm_sol=mdbm(ax,f,7);
 plotobject=plot_mdbm(mdbm_sol,'r');
 set(plotobject,'LineWidth',2)
-legend('without fround', 'with fround', 'Location', 'northeast')
+legend('without fround', 'with fround', 'Location', 'northoutside')
 %%
 
 ax(1).val=linspace(-2,8,15);
@@ -54,4 +54,4 @@ figure(1)
 subplot(2,2,3),hold on
 plotobject=plot_mdbm(mdbm_sol,'r');
 set(plotobject,'LineWidth',2)
-legend('without fround', 'with fround', 'Location', 'northeast')
+legend('without fround', 'with fround', 'Location', 'northoutside')
