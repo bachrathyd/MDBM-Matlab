@@ -125,7 +125,7 @@ for kinterpolationorder=0:2
     grid on
     drawnow
 end
-legend(legendstring)
+legend(legendstring, 'Location', 'northeast')
 
 
 %% If much higher precision is required than the output of the MDBM should be

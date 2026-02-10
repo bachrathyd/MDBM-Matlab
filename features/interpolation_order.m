@@ -49,7 +49,7 @@ end
 legend(...
     {['final interpolation order: 0 , maximal radius error: ',num2str(radiuserror(1))],...
     ['final interpolation order: 1 , maximal radius error: ',num2str(radiuserror(2))],...
-    ['final interpolation order: 2 , maximal radius error: ',num2str(radiuserror(3))]})
+    ['final interpolation order: 2 , maximal radius error: ',num2str(radiuserror(3))]}, 'Location', 'northoutside')
 
 %check the convergence rate as the number of interation
 figure(2)
@@ -77,7 +77,7 @@ for Ninter= 1:10
         errorbar(1:Ninter, radiuserror_mean(InterpolationOrder+1,1:Ninter), radiuserror_std(InterpolationOrder+1,1:Ninter), [colorslegened(InterpolationOrder+1),'-o'],'DisplayName',['Mean Order ',num2str(InterpolationOrder)])
         plot(1:Ninter, radiuserror_max(InterpolationOrder+1,1:Ninter), [colorslegened(InterpolationOrder+1),':x'],'DisplayName',['Max Order ',num2str(InterpolationOrder)])
     end
-    legend('Location','best')
+    legend('Location','northeast')
     drawnow
 end
 

@@ -72,7 +72,7 @@ drawnow
 
 
 % Final styling
-legend('Constraint Boundary', 'Surface 1 (Constrained)', 'Intersection (Constrained)');
+legend('Constraint Boundary', 'Surface 1 (Constrained)', 'Intersection (Constrained)', 'Location', 'northeast');
 title('MDBM: Flexible Anonymous Function Composition');
 grid on; 
 

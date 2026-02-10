@@ -131,4 +131,4 @@ hold on
 quiver3(posvect(1,:),posvect(2,:),posvect(3,:),...
     instabgrad(1,:),instabgrad(2,:),instabgrad(3,:),5);
 
-legend({'Stability limits (bifurcation curves)','applied constraints','instability gradient'})
+legend({'Stability limits (bifurcation curves)','applied constraints','instability gradient'}, 'Location', 'northeast')

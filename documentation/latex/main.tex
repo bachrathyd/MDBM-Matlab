@@ -1,0 +1,231 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath, amssymb, amsfonts}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{booktabs}
+\usepackage{geometry}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{longtable}
+
+\geometry{margin=2.5cm}
+
+\definecolor{mygreen}{RGB}{28,172,0}
+\definecolor{mylilas}{RGB}{170,55,241}
+
+\lstset{language=Matlab,
+    breaklines=true,
+    morekeywords={matlab2tikz},
+    keywordstyle=\color{blue},
+    commentstyle=\color{mygreen},
+    stringstyle=\color{mylilas},
+    basicstyle=\ttfamily\small,
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    stepnumber=1,
+    numbersep=10pt,
+    backgroundcolor=\color{white},
+    tabsize=4,
+    showspaces=false,
+    showstringspaces=false
+}
+
+\title{Multi-Dimensional Bisection Method (MDBM) \\ User's Guide}
+\author{Dr. Daniel Bachrathy \\ \small Assistant Professor \\ \small Budapest University of Technology and Economics}
+\date{February 2026}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\newpage
+
+\section{Introduction}
+The Multi-Dimensional Bisection Method (MDBM) is an efficient and robust root-finding algorithm for determining high-dimensional submanifolds of the roots of implicit non-linear equation systems. It is particularly powerful in cases where the number of unknowns surpasses the number of equations ($k \leq l$):
+\begin{equation}
+    f_i(x_j) = 0, \quad i=1 \dots k, \quad j=1 \dots l
+\end{equation}
+
+MDBM iteratively halves the parameter space and evaluates only those grid points where a root is likely to exist, significantly reducing the number of required function evaluations compared to brute-force methods.
+
+\section{Quick How-To-Use}
+To use MDBM, you need to define the parameter space, the vectorized function, and the number of iterations.
+
+\begin{lstlisting}
+% 1. Define axes
+ax(1).val = linspace(-3, 3, 10);
+ax(2).val = linspace(-3, 3, 10);
+
+% 2. Define vectorized function
+foo = @(x) x(1,:).^2 + x(2,:).^2 - 4; % Unit circle
+
+% 3. Run MDBM
+Niteration = 4;
+sol = mdbm(ax, foo, Niteration);
+
+% 4. Plot
+plot_mdbm(sol);
+\end{lstlisting}
+
+\section{Detailed Options (mdbmset)}
+The behavior of the solver is controlled by the \texttt{mdbmset} structure. Each field is critical for fine-tuning the solver's performance and robustness.
+
+\begin{longtable}{llp{6cm}}
+\toprule
+\textbf{Field} & \textbf{Related Demo} & \textbf{Description} \\ \midrule
+\texttt{isconstrained} & \nameref{sec:constrain} & If true, the last equation in the output is treated as a domain boundary. Solutions are only kept where this value is positive. \\
+\texttt{interporder} & \nameref{sec:interp} & Order of root interpolation: 0 (raw grid points), 1 (linear), 2 (quadratic). \\
+\texttt{bracketingdistance} & Case: Turning & Distance (in grid units) to look for sign changes. Helps recover branches in dense regions. \\
+\texttt{checkneighbour} & \nameref{sec:neighbor} & Max consecutive neighbor check steps. Set to \texttt{Inf} for max robustness. \\
+\texttt{refinetype} & \nameref{sec:refine} & Refinement strategy: \texttt{'all'}, \texttt{'pos'} (range), \texttt{'object'} (near roots). \\
+\texttt{zerotreshold} & Feature: Degenerate & Numerical value below which a function evaluation is considered exactly zero. \\
+\texttt{connections} & \nameref{sec:connection} & If true, calculates the Delaunay connectivity needed for plotting surfaces and curves. \\
+\texttt{timelimit} & Case: Mathieu & Max allowed time (seconds) for a single refinement step. \\
+\texttt{funcallimit} & - & Max function evaluations allowed to prevent memory overflow. \\
+\bottomrule
+\end{longtable}
+
+\section{Software Components (src)}
+The following files in the \texttt{src/} directory form the core of the MDBM ecosystem:
+
+\begin{longtable}{lp{9cm}}
+\toprule
+\textbf{File} & \textbf{Description} \\ \midrule
+\texttt{mdbm.p} & \textbf{Main Entry Point}. Orchestrates iterative bisection, calling refinement and interpolation. \\
+\texttt{mdbmset.m} & \textbf{Configuration}. Utility to create the options structure with defaults. \\
+\texttt{plot\_mdbm.m} & \textbf{Visualization}. Intelligent plotting for 1D, 2D, and 3D submanifolds. \\
+\texttt{extend\_axis.m} & \textbf{Domain Extension}. Adds new parameter ranges to an existing solution. \\
+\texttt{refine.p} & \textbf{Grid Management}. Implements the various refinement strategies. \\
+\texttt{checkneighbour.p} & \textbf{Robustness Engine}. Scans adjacent grid cells to find missing branches. \\
+\texttt{interpolating\_cubes.p} & \textbf{Root Finder}. Performs root interpolation within a grid cell. \\
+\texttt{DTconnect.p} & \textbf{Meshing}. Standard Delaunay triangulation for result visualization. \\
+\texttt{interpplot.p} & \textbf{Smoothing}. Generates high-quality interpolation for plotting. \\
+\texttt{plotthecomputedpoints.m} & \textbf{Debug Viz}. Visualizes all grid points evaluated by the solver. \\
+\bottomrule
+\end{longtable}
+
+\section{History}
+The core idea of MDBM occurred during my MSc thesis at the University of Bristol (Erasmus program) in 2006. The motivation was the solution of the characteristic equation of time-delay systems (DDEs), which involve 2+1 parameters and 2 equations (real and imaginary parts). At that time, no direct method existed to handle these problems automatically in a robust way, especially for detecting closed manifolds of non-differentiable functions.
+
+\section{Disclaimer}
+The core solver files are provided as \texttt{.p} files to protect the development work spanning over a decade. All files necessary for customization and special needs remain as \texttt{.m} files. 
+
+\textbf{Julia Version}: A newer version is available in Julia. It includes sub-cube interpolation and a beta version of the highly anticipated error-based non-uniform refinement.
+
+\section{Known Alternatives}
+\begin{itemize}
+    \item \textbf{Mathematica (ContourPlot/Isosurface)}: Uses iterative grid refinement for visualization. Robust in 2D and 3D but usually limited to a single implicit equation.
+    \item \textbf{Sequential Projections}: Solving equations sequentially and triangulating intermediate results. Complexity scales poorly with dimension and number of equations.
+    \item \textbf{Interval Arithmetic}: Provides mathematically guaranteed results. Notable work includes \textbf{David P. Sanders} and the Julia ecosystem (\texttt{IntervalRootFinding.jl}).
+\end{itemize}
+
+\section{Folder Descriptions and Gallery}
+
+\subsection{Features (features/)}
+\subsubsection{Simplex Connections}\label{sec:connection}
+\texttt{connection\_of\_points\_to\_simplex.m} shows how points are connected (Figure~\ref{fig:connection}).
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.6\textwidth]{../figures/feature_connection.png}
+    \caption{Connectivity of points in the parameter space.}
+    \label{fig:connection}
+\end{figure}
+
+\subsubsection{Constrained Problems}\label{sec:constrain}
+Handling domain boundaries (Figure~\ref{fig:const_simple} and~\ref{fig:const_complex}).
+\begin{figure}[htbp]
+    \centering
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{../figures/feature_constraints_simple.png}
+        \caption{Simple constraint.}
+        \label{fig:const_simple}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{../figures/feature_constraints_complex.png}
+        \caption{Complex combined constraints.}
+        \label{fig:const_complex}
+    \end{subfigure}
+    \caption{Constraint handling in MDBM.}
+\end{figure}
+
+\subsubsection{Interpolation Order}\label{sec:interp}
+Comparison of 0th, 1st, and 2nd order (Figure~\ref{fig:interp_order}).
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{../figures/feature_interpolation_order.png}
+    \caption{Effect of interpolation order on accuracy and convergence.}
+    \label{fig:interp_order}
+\end{figure}
+
+\subsubsection{Local Refinement}\label{sec:refine}
+Zooming into regions (Figure~\ref{fig:refine}).
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.6\textwidth]{../figures/feature_local_refinement.png}
+    \caption{Local refinement of a non-smooth boundary.}
+    \label{fig:refine}
+\end{figure}
+
+\subsubsection{Neighbor Check}\label{sec:neighbor}
+Recovering missing branches (Figure~\ref{fig:neighbor}).
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.6\textwidth]{../figures/feature_neighbor_check.png}
+    \caption{Neighbor check ensuring solution continuity.}
+    \label{fig:neighbor}
+\end{figure}
+
+\newpage
+\subsection{Examples (examples/)}
+\begin{figure}[htbp]
+    \centering
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{../figures/example_unit_circles.png}
+        \caption{Unit circles ($L^p$ norms).}
+        \label{fig:ex_circles}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{../figures/example_julia_3d.png}
+        \caption{3D Julia set.}
+        \label{fig:ex_julia}
+    \end{subfigure}
+    \caption{Geometric and fractal examples.}
+\end{figure}
+
+\subsection{Case Studies (case\_studies/)}
+\begin{figure}[htbp]
+    \centering
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{../figures/case_shimmy.png}
+        \caption{Shimmy vibration stability.}
+        \label{fig:case_shimmy}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{../figures/case_turning.png}
+        \caption{Turning stability chart.}
+        \label{fig:case_turning}
+    \end{subfigure}
+    \caption{Engineering case studies.}
+\end{figure}
+
+\section{Citing}
+If you use MDBM in your research, please cite:
+\textit{Bachrathy, Daniel, and Gabor Stepan. ``Bisection Method in Higher Dimensions and the Efficiency Number.'' Periodica Polytechnica Mechanical Engineering, 2012.}
+
+\end{document}
