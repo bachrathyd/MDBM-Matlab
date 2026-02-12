@@ -270,7 +270,6 @@ function [fun_val] = fval_mandelbrot_local(ax, par)
     end
 end
 
-
 % Function to save figure with consistent settings
 function save_and_close(filename)
     fprintf('Saving: %s\n', filename);

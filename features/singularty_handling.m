@@ -4,7 +4,7 @@ ax = [];
 ax(1).val = linspace(-2,8, 10);
 ax(2).val = linspace(0, 5, 10);
 
-foo=@(x)[(sin(x(1,:)).^2+cos(x(2,:)).^2-0.5)./cos(x(2,:)/2+x(1,:)/1.5)];
+foo=@(x) (sin(x(1,:)).^2+cos(x(2,:)).^2-0.5)./cos(x(2,:)/2+x(1,:)/1.5);
 toc
 mdbm_sol_sign_change = mdbm(ax, foo, 5);%initial solution
 toc
@@ -21,15 +21,20 @@ title("the function values tends to inf at the singular values")
 zlim([-10,10])
 view(3),shading interp, alpha 0.3
 
-% post filtering the singular point by reevaluating the function in the
+%% Post filtering the singular point by reevaluating the function in the
 % interpolated points.
 % Note, it can be expensive if foo is complicated!!!
-function_val_at_signchange=foo(mdbm_sol_sign_change.posinterp)
+
+function_val_at_signchange=foo(mdbm_sol_sign_change.posinterp);
 
 % Plot the function value distribution
-%plot(log(sort(abs(function_val_at_signchange))),'.')
-limit_val=1e-1 %finding the proper limit value is hard, and it also can depend on the final resolution
-is_close_to_zeros=abs(function_val_at_signchange)<limit_val
+% plot(log(sort(abs(function_val_at_signchange))),'.')
+limit_val=1e-1; %finding the proper limit value is hard, and it also can depend on the final resolution,
+
+% % TODO: you can play with this parameret to see the effect
+% limit_val=1e-3; %too small
+% limit_val=1e2; %too large
+is_close_to_zeros=abs(function_val_at_signchange)<limit_val;
 
 subplot(3,2,5)
 plot(mdbm_sol_sign_change.posinterp(1,is_close_to_zeros),...
@@ -42,20 +47,21 @@ title('post filtered points')
 
 % you might try to eliminate the n-cubes directly by modify the mdbm_sol
 % structure (not advised)
-mdbm_sol_sign_change.ncubevect=mdbm_sol_sign_change.ncubevect(:,is_close_to_zeros)
-mdbm_sol_sign_change.ncubelin=mdbm_sol_sign_change.ncubelin(:,is_close_to_zeros)
-mdbm_sol_sign_change.posinterp = mdbm_sol_sign_change.posinterp(:,is_close_to_zeros)
-mdbm_sol_sign_change.gradient=mdbm_sol_sign_change.gradient(:,:,is_close_to_zeros)
-mdbm_sol_sign_change.curvnorm=mdbm_sol_sign_change.curvnorm(:,is_close_to_zeros)
+mdbm_sol_sign_change_modif=mdbm_sol_sign_change;
+mdbm_sol_sign_change_modif.ncubevect=mdbm_sol_sign_change_modif.ncubevect(:,is_close_to_zeros);
+mdbm_sol_sign_change_modif.ncubelin=mdbm_sol_sign_change_modif.ncubelin(:,is_close_to_zeros);
+mdbm_sol_sign_change_modif.posinterp = mdbm_sol_sign_change_modif.posinterp(:,is_close_to_zeros);
+mdbm_sol_sign_change_modif.gradient=mdbm_sol_sign_change_modif.gradient(:,:,is_close_to_zeros);
+mdbm_sol_sign_change_modif.curvnorm=mdbm_sol_sign_change_modif.curvnorm(:,is_close_to_zeros);
 
 %you can recover the structure by run 0 more iteration:
-mdbm_sol_sign_change=mdbm(mdbm_sol_sign_change,0)
-plot_mdbm(mdbm_sol_sign_change,'k')
+mdbm_sol_sign_change_modif=mdbm(mdbm_sol_sign_change_modif,0);
+plot_mdbm(mdbm_sol_sign_change_modif,'k')
 %you can increase further the resolution, but note if you do not switch off
 %the neighbour checking it might recover the lost segments of the "singular-curves"
 % (if it connected to the "zero-curve"
-mdbm_sol_sign_change=mdbm(mdbm_sol_sign_change,1)
-plot_mdbm(mdbm_sol_sign_change,'b')
+mdbm_sol_sign_change_modif=mdbm(mdbm_sol_sign_change_modif,1);
+plot_mdbm(mdbm_sol_sign_change_modif,'b')
 %% False solution appears, at x= k*pi, and y=k*pi, where the sign change is caused by the singularity (the function tends to inf / -inf)
 
 
@@ -64,15 +70,14 @@ plot_mdbm(mdbm_sol_sign_change,'b')
 
 %setting the limit too low, will remove many solutions if the zero-curve
 %crosses the singularity-curve
-limit_small=1;
+limit_small=0.15;
 %with a good choice 'only' some part might missing (but still can lead to
 %discontinuity in crossing appears)
-limit_acceptable=3;
+limit_acceptable=1.5;
 %Too large value might be ineffective
-
+limit_large=15;
 %Note. These values also depend on the final resolution
 
-limit_large=20;
 limis=[limit_small,limit_acceptable,limit_large];
 for k =1:length( limis)
     limit=limis(k);
