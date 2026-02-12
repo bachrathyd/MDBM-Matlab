@@ -54,7 +54,7 @@ plot3(X(Z<-epsilon),Y(Z<-epsilon),Z(Z<-epsilon),'g.')
 plot3(X(abs(Z)<epsilon),Y(abs(Z)<epsilon),Z(abs(Z)<epsilon),'m.')
 view(73,36)
 title('MDBM soltuion')
-legend({'sol','gradient', 'evaluated +', 'evaluated -', 'evaluated ~zero' },'Location','northoutside','NumColumns',2)
+legend({'sol','gradient', 'evaluated +', 'evaluated -', 'evaluated ~zero' },'Location','northeast','NumColumns',2)
 
 function Z=foo_degenerate_1(ax)
 %% version 1: simple calculate the function value(s) for each parameter points

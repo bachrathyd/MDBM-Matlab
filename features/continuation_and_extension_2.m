@@ -56,7 +56,7 @@ title(['Continuation: Solution']);
 grid on; view(3);
 hold on
 plot3(xyz0(1),xyz0(2),xyz0(3),'r','Marker','o','MarkerSize',8,'LineWidth',4)
-legend({'full solution','initali starting point'},'Location','northoutside','NumColumns',2)
+legend({'full solution','initali starting point'},'Location','northeast','NumColumns',2)
 % Evaluated Points
 ax2loc(2) = subplot(2,2,2);
 plotthecomputedpoints(mdbm_sol_contin)
@@ -87,7 +87,7 @@ grid on; view(3);
 % Evaluated Points
 ax2loc(4) = subplot(2,2,4);
 plotthecomputedpoints(mdbm_sol_trad)
-title(['Traditional: function evaluation', num2str(size(evalpos_t,2)), ' points']);
+title(['Traditional: function evaluation', num2str(size(mdbm_sol_trad.linindex,2)), ' points']);
 grid on; view(3);
 
 % Link view for better comparison

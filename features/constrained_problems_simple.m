@@ -1,7 +1,7 @@
 %% MDBM Feature: Constrained Problems (Anonymous Function Approach)
 % This version demonstrates how to use constraints
-% mdbm_options.isconstrained = ture, than the lase element of the output is
-% treated as a constarint (solution is calculated only at the positive side
+% mdbm_options.isconstrained = true, then the last element of the output is
+% treated as a constraint (solution is calculated only at the positive side
 
 % --- Definition of Individual Components ---
 % Objective functions (sphere)
@@ -18,12 +18,12 @@ ax(1).val = linspace(-2,2,7);
 ax(2).val = linspace(-2,2,7);
 ax(3).val = linspace(-2,2,7);
 
-% setting the options fies
+% setting the options fields
 mdbm_options = mdbmset( );
 
 figure(107); clf; hold on;
 subplot(1,2,1)
-%% 1. Plotting the shpere olny Only
+%% 1. Plotting the sphere only
 mdbm_options.isconstrained = false;
 mdbm_sol_c = mdbm(ax, foo_sphere, 3, mdbm_options);
 gh = plot_mdbm(mdbm_sol_c, 'r');
@@ -40,7 +40,7 @@ gh = plot_mdbm(mdbm_sol_f1, 'b');
 set(gh, 'LineStyle', 'none'); alpha 0.2;
 drawnow
 
-legend('function', 'Constrain', 'Location', 'northoutside');
+legend('function', 'Constrain', 'Location', 'northeast');
 
 subplot(1,2,2)
 %% 3. Plotting Function with Constraints
@@ -50,7 +50,7 @@ gh = plot_mdbm(mdbm_sol_f1, 'g');
 set(gh, 'LineStyle', 'none'); alpha 0.2;
 drawnow
 
-legend('Constrained function', 'Location', 'northoutside');
+legend('Constrained function', 'Location', 'northeast');
 
 grid on; 
 

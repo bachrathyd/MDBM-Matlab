@@ -10,8 +10,6 @@
 %% definition of the parameter space
 %the limits and the initial mesh
 
-
-
 ax=[];
 ax(1).val=linspace(-1.5,1.5,5);%x
 ax(2).val=linspace(-1.5,1.5,5);%y
@@ -56,5 +54,5 @@ y=mdbm_sol_section.posinterp(2,:);
 plot3(p_loc*ones(1,length(x)),x,y,'k.')
 drawnow
 end
-legend('surfaces','computed pont','secions at p=0.5:0.5:3.5','Location','northoutside')
+legend('surfaces','computed pont','secions at p=0.5:0.5:3.5','Location','northeast')
 

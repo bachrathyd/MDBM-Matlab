@@ -48,6 +48,7 @@ function mdbmoptionspar=mdbmset(varargin)
 %   directionalneighbouronly - (Boolean) [Default: true]
 %       If true, only checks neighbors in directions where the function 
 %       gradient suggests a root might exist.
+%       Demo: features/neighbor_check_demo.m
 %
 %   connections - (Boolean) [Default: true]
 %       If true, calculates the Delaunay connectivity needed for 

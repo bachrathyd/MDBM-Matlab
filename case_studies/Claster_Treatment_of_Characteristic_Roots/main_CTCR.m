@@ -105,7 +105,7 @@ quiver3(posvect(1,:),posvect(2,:),posvect(3,:),...
     instabgrad(1,:),instabgrad(2,:),instabgrad(3,:),2);
 
 view(2)
-%legend({'Stability limits (bifurcation curves)','applied constraints','instability gradient'})
+legend({'Stability limits (bifurcation curves)','applied constraints','instability gradient'},'Location','northeast')
 
 instabgrad_tau12=mdbm_sol.gradient(:,1,:)+1i*mdbm_sol.gradient(:,2,:);
 instabgrad_tau12(1,:,:)=instabgrad_tau12(1,:,:) .* instabgrad_tau12(3,:,:);

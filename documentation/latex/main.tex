@@ -197,6 +197,15 @@ Recovering missing branches (Figure~\ref{fig:neighbor}).
     \label{fig:bracketing}
 \end{figure}
 
+\subsubsection{Singularity Handling}
+\texttt{singularty\_handling.m} illustrates the identification and removal of "false" solutions that arise due to function singularities (Figure~\ref{fig:singularity}). Since MDBM relies on sign changes, it may detect boundaries where a function jumps from $-\infty$ to $+\infty$. This script demonstrates how to filter these points by evaluating the function value at the interpolated roots or by using constraints to limit the function's magnitude.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{../figures/feature_singularity.png}
+    \caption{Detection and filtering of singularities.}
+    \label{fig:singularity}
+\end{figure}
+
 \newpage
 \subsection{Examples (examples/)}
 \begin{figure}[htbp]
@@ -239,5 +248,53 @@ Recovering missing branches (Figure~\ref{fig:neighbor}).
 \section{Citing}
 If you use MDBM in your research, please cite:
 \textit{Bachrathy, Daniel, and Gabor Stepan. ``Bisection Method in Higher Dimensions and the Efficiency Number.'' Periodica Polytechnica Mechanical Engineering, 2012.}
+
+\appendix
+\section{Detailed File Descriptions}
+
+\subsection{Features (features/)}
+\begin{itemize}
+    \item \texttt{bracketing\_ncube\_detection.m}: Effect of \texttt{bracketingdistance} on manifold discovery.
+    \item \texttt{connection\_of\_points\_to\_simplex.m}: Visualization of the mesh generation.
+    \item \texttt{constrained\_problems\_simple.m}: Basic usage of the \texttt{isconstrained} option.
+    \item \texttt{constrained\_problems\_complex.m}: Composition of multiple constraints and objective functions.
+    \item \texttt{continuation\_and\_extension\_1.m}: Extending the domain of a known solution.
+    \item \texttt{continuation\_and\_extension\_2.m}: Advanced domain extension for disconnected branches.
+    \item \texttt{degenerate\_function\_1.m}: Handling functions with zero-gradients at roots.
+    \item \texttt{degenerate\_function\_2\_detecting\_different\_dimensions.m}: Detecting manifolds of mixed dimensions.
+    \item \texttt{interpolation\_of\_the\_results.m}: Showcase of different interpolation techniques.
+    \item \texttt{interpolation\_order.m}: Convergence analysis for 0th, 1st, and 2nd order interpolation.
+    \item \texttt{local\_refinement\_nonsmooth\_mandelbrot.m}: Targeted resolution increase in complex regions.
+    \item \texttt{neighbor\_check\_demo.m}: Robustness via adjacent cell scanning.
+    \item \texttt{plotting\_exampels.m}: Comprehensive guide to the \texttt{plot\_mdbm} function options.
+    \item \texttt{singularty\_handling.m}: Filtering false sign changes caused by poles.
+\end{itemize}
+
+\subsection{Examples (examples/)}
+\begin{itemize}
+    \item \texttt{unit\_circles.m}: Visualization of $L^p$ norms in 3D.
+    \item \texttt{catastrophe\_surface\_visualization\_gradient.m}: Surface sections and fold lines.
+    \item \texttt{convergence\_transcendent.m}: Error analysis against iterative refinement.
+    \item \texttt{delayed\_pd\_controler\_stability.m}: Stability of systems with time-delay.
+    \item \texttt{fun\_with\_floor.m}: Handling non-smooth (staircase) functions.
+    \item \texttt{julia\_set\_3d.m}: Fractals in 3D.
+    \item \texttt{noise\_handeling.m}: Robustness against stochastic function values.
+\end{itemize}
+
+\subsection{Case Studies (case\_studies/)}
+\begin{itemize}
+    \item \texttt{catastrophe\_surface/catastrophe\_demo.m}: Pendulum catastrophe surface.
+    \item \texttt{Claster\_Treatment\_of\_Characteristic\_Roots/main\_CTCR.m}: Delay-dependent stability analysis.
+    \item \texttt{Delay\_Mathieu\_simulation\_based\_stability\_chart/DelayedMathieuStability\_MDBM.m}: Stability of time-periodic delayed systems.
+    \item \texttt{shimmy\_problem/shimmy\_stability_surface.m}: Wheel vibration stability.
+    \item \texttt{Sweeping\_envelope/sweeping\_enveloper\_only.m}: Efficient envelope detection in parameter sweeps.
+    \item \texttt{turning\_stability/turning\_stability\_instabilitygradient.m}: Tool stability in machining.
+\end{itemize}
+
+\subsection{Templates (templates/)}
+\begin{itemize}
+    \item \texttt{template\_pardim[N]\_codim[M].m}: Standard starting scripts for $N$ parameters and $M$ equations ($N=1..4, M=1..3$).
+    \item \texttt{superminimal\_template\_pardim3\_codim1.m}: Concise template for high-dimensional problems.
+\end{itemize}
 
 \end{document}

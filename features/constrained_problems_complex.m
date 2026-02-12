@@ -24,7 +24,7 @@ ax(2).val = linspace(-3,3,7);
 ax(3).val = linspace(-3,3,7);
 
 figure(107); clf; hold on;
-% setting the options fies
+% setting the options fields
 mdbm_options = mdbmset( );
 
 
@@ -72,7 +72,7 @@ drawnow
 
 
 % Final styling
-legend('Constraint Boundary', 'Surface 1 (Constrained)', 'Intersection (Constrained)', 'Location', 'northoutside');
+legend('Constraint Boundary', 'Surface 1 (Constrained)', 'Intersection (Constrained)', 'Location', 'northeast');
 title('MDBM: Flexible Anonymous Function Composition');
 grid on; 
 

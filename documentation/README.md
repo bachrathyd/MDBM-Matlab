@@ -117,6 +117,10 @@ Demonstrations of specific solver capabilities and options.
 `bracketing_ncube_detection.m` demonstrates how the solver identifies cells that contain a root based on the distance to the manifold. It performs a sweep of the `bracketingdistance` parameter to show the trade-off between robustness (finding all branches) and efficiency (minimizing evaluated points).
 ![Bracketing n-cubes](figures/feature_bracketing.png)
 
+#### Singularity Handling
+`singularty_handling.m` demonstrates how to handle cases where sign changes are caused by singularities (where the function tends to infinity) rather than actual roots. It shows post-filtering techniques and using constraints to bound the function value.
+![Singularity Handling](figures/feature_singularity.png)
+
 ### `examples/`
 Practical and visual applications.
 
@@ -178,7 +182,48 @@ The primary motivation was the solution of the characteristic equations of **Del
 
 ---
 
-## 8. Citing
+## 9. Appendix: Detailed File List
+
+### `features/` (Detailed)
+*   `bracketing_ncube_detection.m`: Effect of `bracketingdistance` on manifold discovery.
+*   `connection_of_points_to_simplex.m`: Visualization of the mesh generation.
+*   `constrained_problems_simple.m`: Basic usage of the `isconstrained` option.
+*   `constrained_problems_complex.m`: Composition of multiple constraints and objective functions.
+*   `continuation_and_extension_1.m`: Extending the domain of a known solution.
+*   `continuation_and_extension_2.m`: Advanced domain extension for disconnected branches.
+*   `degenerate_function_1.m`: Handling functions with zero-gradients at roots.
+*   `degenerate_function_2_detecting_different_dimensions.m`: Detecting manifolds of mixed dimensions.
+*   `interpolation_of_the_results.m`: Showcase of different interpolation techniques.
+*   `interpolation_order.m`: Convergence analysis for 0th, 1st, and 2nd order interpolation.
+*   `local_refinement_nonsmooth_mandelbrot.m`: Targeted resolution increase in complex regions.
+*   `neighbor_check_demo.m`: Robustness via adjacent cell scanning.
+*   `plotting_exampels.m`: Comprehensive guide to the `plot_mdbm` function options.
+*   `singularty_handling.m`: Filtering false sign changes caused by poles.
+
+### `examples/` (Detailed)
+*   `unit_circles.m`: Visualization of $L^p$ norms in 3D.
+*   `catastrophe_surface_visualization_gradient.m`: Surface sections and fold lines.
+*   `convergence_transcendent.m`: Error analysis against iterative refinement.
+*   `delayed_pd_controler_stability.m`: Stability of systems with time-delay.
+*   `fun_with_floor.m`: Handling non-smooth (staircase) functions.
+*   `julia_set_3d.m`: Fractals in 3D.
+*   `noise_handeling.m`: Robustness against stochastic function values.
+
+### `case_studies/` (Detailed)
+*   `catastrophe_surface/catastrophe_demo.m`: Pendulum catastrophe surface.
+*   `Claster_Treatment_of_Characteristic_Roots/main_CTCR.m`: Delay-dependent stability analysis.
+*   `Delay_Mathieu_simulation_based_stability_chart/DelayedMathieuStability_MDBM.m`: Stability of time-periodic delayed systems.
+*   `shimmy_problem/shimmy_stability_surface.m`: Wheel vibration stability.
+*   `Sweeping_envelope/sweeping_enveloper_only.m`: Efficient envelope detection in parameter sweeps.
+*   `turning_stability/turning_stability_instabilitygradient.m`: Tool stability in machining.
+
+### `templates/` (Detailed)
+*   `template_pardim[N]_codim[M].m`: Standard starting scripts for $N$ parameters and $M$ equations ($N=1..4, M=1..3$).
+*   `superminimal_template_pardim3_codim1.m`: The most concise template for high-dimensional problems.
+
+---
+
+## 10. Citing
 
 If you use this software in your research, please cite:
 > **Bachrathy, Daniel, and Gabor Stepan.** "Bisection Method in Higher Dimensions and the Efficiency Number." *Periodica Polytechnica Mechanical Engineering*, vol. 56, no. 2, 2012, p. 81. [doi:10.3311/pp.me.2012-2.01](https://doi.org/10.3311/pp.me.2012-2.01)
