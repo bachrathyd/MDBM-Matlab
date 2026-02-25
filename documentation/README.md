@@ -1,6 +1,6 @@
 # Multi-Dimensional Bisection Method (MDBM) - Matlab Documentation
 
-**MDBM** is an efficient and robust root-finding algorithm for determining high-dimensional submanifolds of the roots of implicit non-linear equation systems.
+**MDBM** is an efficient and robust root-finding algorithm for determining high-dimensional submanifolds of the roots of implicit non-linear equation systems with constraint.
 
 [![CC BY-NC-ND 2.0](https://img.shields.io/badge/License-CC%20BY--NC--ND%202.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-nd/2.0/)
 

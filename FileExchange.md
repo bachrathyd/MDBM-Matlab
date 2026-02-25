@@ -5,12 +5,6 @@ Multi-Dimensional Bisection Method (MDBM) finds all the solutions/roots of a sys
 This function is an alternative to the `contourplot` or the `isosurface` in higher dimensions (higher number of parameters). The main advantage: it can handle multiple functions (contour plot or the isosurface can handle scalar values only).
 In addition, MDBM uses much less function evaluation than the brute-force method, so for complex tasks, it is much faster and uses far less memory.
 
-## Getting Started
-Extensive examples can be found in the `examples` folder.
-1. Run the `runme_run_all_the_exmaples.m` file.
-2. The `run_test_....` files should be tested. Don't forget to add the `src` folder (formerly `code_folder`) to the path.
-3. Check the possible options defined by `mdbmoptions = mdbmset()`. (Note: if an option is not commented in the code, it is likely an internal variable.)
-
 ## Compatibility and Versions
 * **Matlab:** As a consequence of the change in the "vectorized +" function, MDBM is compatible with the newer Matlab versions only.
 * **Julia:** A newer version is available in Julia. Although not all features available in the Matlab version are migrated to Julia yet (as they are not crucial), they have similar capabilities. Currently, the Julia version is the one actively maintained and developed. Great features are coming: sub-cube interpolation is already available, and error-based non-uniform refinement (one of the best and most needed features) is in a usable beta version.
